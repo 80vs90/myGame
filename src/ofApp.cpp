@@ -46,6 +46,7 @@ void ofApp::setup(){
     yPos = 350;
     zPos = 0;
     
+    
     boxField[0].setup( 100, ground, 0, 30 );
     sprite.setup(xPos, yPos, zPos, spriteSize );
     
@@ -61,16 +62,24 @@ void ofApp::update(){
     
     
     
+    
+    
     if( heldKey == 356 ){
         
         
         //move left
         
         
-        xPos -= speed;
-        if( speed < maxSpeed ){
-            speed += 1;
+        
+     
+        if( !sprite.collidesX( boxField[0], speed ) ){
+               xPos -= speed;
+                if( speed < maxSpeed ){
+                    speed += 1;
+                }
         }
+        
+       
         
         
         
@@ -80,10 +89,14 @@ void ofApp::update(){
             
             //move right
             
-            xPos += speed;
-            if( speed < maxSpeed ){
-                speed += 1;
+            
+            if( !sprite.collidesX( boxField[0], speed * -1 ) ){
+                xPos += speed;
+                if( speed < maxSpeed ){
+                    speed += 1;
+                }
             }
+           
             
         }else{
             
@@ -91,9 +104,14 @@ void ofApp::update(){
                 
                 // move in
                 
-                zPos += speed;
-                if( speed < maxSpeed ){
-                    speed += 1;
+                
+                
+                if(!sprite.collidesZ( boxField[0], speed * -1  ) ){
+                    
+                    zPos += speed;
+                    if( speed < maxSpeed ){
+                        speed += 1;
+                    }
                 }
                 
             }else{
@@ -101,10 +119,12 @@ void ofApp::update(){
                 if( heldKey == 357 ){
                     
                     //move out
-                    
-                    zPos -= speed;
-                    if( speed < maxSpeed ){
-                        speed += 1;
+                    if(!sprite.collidesZ( boxField[0], speed ) ){
+
+                        zPos -= speed;
+                        if( speed < maxSpeed ){
+                            speed += 1;
+                        }
                     }
                 }
                 
@@ -115,8 +135,10 @@ void ofApp::update(){
     
     if( jump && yPos >= (ground - jumpHeight) ){
         
-        yPos -= fallspeed;
-        fallspeed -=1;
+        
+            yPos -= fallspeed;
+            fallspeed -=1;
+    
     }
     
     if( jump && yPos <= (ground - jumpHeight) ){
@@ -129,14 +151,20 @@ void ofApp::update(){
     
     if( peaked && yPos <= ground ){
         
-        yPos += fallspeed;
-        fallspeed +=1;
-        if( yPos >= ground ){
+    
+        
+
+        
+               yPos += fallspeed;
+               fallspeed +=1;
+               if( yPos >= ground ){
             
-            yPos = ground;
-            fallspeed = 15;
-            peaked = false;
-        }
+                   yPos = ground;
+                   fallspeed = 15;
+                   peaked = false;
+               }
+        
+
         
     }
     

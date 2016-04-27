@@ -66,6 +66,107 @@ public:
     
     
     
+    int getMaxX(){
+        
+        return maxx;
+    }
+    int getMaxY(){
+        
+        return maxy;
+    }
+    
+    int getMaxZ(){
+        
+        return maxz;
+    }
+    
+    int getMinX(){
+        
+        return minx;
+    }
+    int getMinY(){
+        
+        return miny;
+    }
+    int getMinZ(){
+        
+        return minz;
+    }
+    
+    
+    
+    
+    
+    
+    bool collidesX( myBox b, int speed ){
+        
+        
+        if(minx - speed <= b.getMaxX() && maxx - speed >= b.getMinX() ){
+            
+            if(minz<= b.getMaxZ() && maxz >= b.getMinZ() ){
+                
+                if(miny <= b.getMinY() && maxy >= b.getMaxY()){
+                    
+                    return true;
+                }
+                
+            }
+
+            
+        }
+        
+        return false;
+    }
+    
+    bool collidesZ( myBox b, int speed ){
+        
+        
+        if(minx <= b.getMaxX() && maxx >= b.getMinX() ){
+            
+            if(minz - speed <= b.getMaxZ() && maxz - speed >= b.getMinZ() ){
+                
+                if(miny <= b.getMinY() && maxy >= b.getMaxY()){
+                    
+                    return true;
+                }
+                
+            }
+            
+            
+        }
+        
+        return false;
+    }
+    
+    bool collidesY( myBox b, int speed ){
+        
+        
+        if(minx <= b.getMaxX() && maxx >= b.getMinX() ){
+            
+            if(minz  <= b.getMaxZ() && maxz >= b.getMinZ() ){
+                
+                if(miny + speed <= b.getMinY() && maxy + speed >= b.getMaxY()){
+                    
+                    return true;
+                }
+                
+            }
+            
+            
+        }
+        
+        return false;
+    }
+
+    
+
+    
+
+    
+
+    
+    
+    
     
     
     
