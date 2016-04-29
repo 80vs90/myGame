@@ -106,7 +106,7 @@ public:
             if(minz<= b.getMaxZ() && maxz >= b.getMinZ() ){
                 
                 if(miny <= b.getMinY() && maxy >= b.getMaxY()){
-                    
+                    cout << "collide" << endl;
                     return true;
                 }
                 
@@ -138,22 +138,16 @@ public:
         return false;
     }
     
-    bool collidesY( myBox b, int speed ){
+    bool collidesY( myBox b ){
         
-        
-        if(minx <= b.getMaxX() && maxx >= b.getMinX() ){
+    
             
-            if(minz  <= b.getMaxZ() && maxz >= b.getMinZ() ){
+            if(minx <= b.getMaxX() && maxx >= b.getMinX() ){
                 
-                if(miny + speed <= b.getMinY() && maxy + speed >= b.getMaxY()){
-                    
+            
                     return true;
-                }
                 
             }
-            
-            
-        }
         
         return false;
     }
@@ -165,14 +159,19 @@ public:
     
 
     
-    
+    int getSize(){
+        
+        
+        return size;
+    }
     
     
     
     
     void draw(){
         
-        ofDrawBox( x, y, z, size);
+        //ofDrawBox( x, y, z, size);
+        ofDrawRectangle( x, y, z, size, size );
         
     }
     

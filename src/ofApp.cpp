@@ -18,8 +18,9 @@ int zPos = 0;
 
 
 bool jump = false;
-int jumpHeight = 110;
-bool peaked = false;
+bool canjump = true;
+
+int jumpHeight = 0;
 int fallspeed = 15;
 
 
@@ -28,8 +29,11 @@ int fallspeed = 15;
 #define zSize 1000
 
 
+
+
 #define spriteSize 30
-#define ground 350
+#define defaultGround 350
+int ground = 350;
 
 bool drawn = false;
 
@@ -47,7 +51,8 @@ void ofApp::setup(){
     zPos = 0;
     
     
-    boxField[0].setup( 100, ground, 0, 30 );
+    boxField[0].setup( 100, ground, 0, 50 );
+    
     sprite.setup(xPos, yPos, zPos, spriteSize );
     
     
@@ -61,6 +66,17 @@ void ofApp::update(){
     
     
     
+    if( sprite.collidesY( boxField[0] ) ){
+        
+                ground = boxField[0].getMaxY() - spriteSize / 2;
+        
+        
+        
+    }else{
+        
+       // cout << "Not" << endl;
+        ground = defaultGround;
+    }
     
     
     
@@ -100,6 +116,8 @@ void ofApp::update(){
             
         }else{
             
+            
+            /**
             if( heldKey == 359 ){
                 
                 // move in
@@ -129,48 +147,72 @@ void ofApp::update(){
                 }
                 
             }
+             **/
             
         }
     }
     
-    if( jump && yPos >= (ground - jumpHeight) ){
-        
-        
-            yPos -= fallspeed;
-            fallspeed -=1;
     
-    }
-    
-    if( jump && yPos <= (ground - jumpHeight) ){
+    if( jump ){
         
-        peaked = true;
-        jump = false;
-        fallspeed = 0;
         
-    }
-    
-    if( peaked && yPos <= ground ){
         
-    
-        
-
-        
-               yPos += fallspeed;
-               fallspeed +=1;
-               if( yPos >= ground ){
+        if( jumpHeight < 20 ){
             
-                   yPos = ground;
-                   fallspeed = 15;
-                   peaked = false;
-               }
-        
+            yPos -= fallspeed;
+            if( fallspeed >= 1){
+                
+                fallspeed --;
+            }
 
+            jumpHeight ++;
+            
+        }
         
+        
+        if( jumpHeight == 20 ){
+            
+
+            jumpHeight = 0;
+            fallspeed = 0;
+            jump = false;
+
+        }
+
     }
     
     
     
+    if( !jump && yPos <= ground ){
+        
+             if( fallspeed < 15 )fallspeed ++;
+             yPos += fallspeed;
+        
+    }
     
+    
+    if( !jump && yPos >= ground ){
+        
+        canjump = true;
+        fallspeed = 0;
+        yPos = ground;
+    }
+
+    
+  
+
+    
+    
+    
+ 
+    
+    
+
+    
+    
+    
+    
+        ground = defaultGround;
     
     
 }
@@ -178,18 +220,18 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    ofRotateX(-30);
+   // ofRotateX(-30);
     ofDrawAxis(200);
     
     
-    // the sprite
-    sprite.setup(xPos, yPos, zPos, spriteSize );
-    sprite.draw();
+
     
     
     // the not sprites
     //  ofDrawBox( 100, ground, 0, 30 );
     for( int x = 0; x < numBoxes; x ++ ){
+        
+        ofSetColor(0,0,0);
         boxField[x].draw();
     }
     
@@ -202,7 +244,10 @@ void ofApp::draw(){
         drawn = true;
     }
     
-    
+    // the sprite
+    ofSetColor(255,255,255);
+    sprite.setup(xPos, yPos, zPos, spriteSize );
+    sprite.draw();
     
 }
 
@@ -223,8 +268,10 @@ void ofApp::keyPressed(int key){
         heldKey = key;
     }
     
-    if( key == 32 && !peaked ){
+    if( key == 32 && canjump ){
         
+        canjump = false;
+        fallspeed = 15;
         jump = true;
         
     }
