@@ -1,6 +1,6 @@
-
 #pragma once
 #include "ofMain.h"
+#include "ofEvents.h"
 #include "myBox.cpp"
 
 
@@ -15,18 +15,16 @@ public:
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y );
-    void mouseDragged(int x, int y, int button);
-    void mousePressed(int x, int y, int button);
+    void mouseDragged(ofMouseEventArgs& mouse);
+    void mousePressed(ofMouseEventArgs& mouse);
     void mouseReleased(int x, int y, int button);
+    void mouseScrolled(ofMouseEventArgs& mouse);
     void mouseEntered(int x, int y);
     void mouseExited(int x, int y);
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    
-    
-    
-    
+    ofCamera cam;
 };
 
